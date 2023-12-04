@@ -39,9 +39,9 @@ export const CategoryForm : React.FC<CategoryFormProps> = ({
     const [open,setOpen]= useState(false);
     const [loading,setLoading]= useState(false); 
 
-    const title = initialData ?'Edit category' : 'Create category';
-    const description = initialData ?'Edit a category' : 'Add a new category';
-    const toastMessage = initialData ?'Category updated.' : 'Category created';
+    const title = initialData ?'Edit collection' : 'Create collection';
+    const description = initialData ?'Edit a collection' : 'Add a new collection';
+    const toastMessage = initialData ?'Collection updated.' : 'collection created';
     const action = initialData ?'Save changes' : 'Create';
 
     const form = useForm<CategoryFormValues>({
@@ -75,9 +75,9 @@ export const CategoryForm : React.FC<CategoryFormProps> = ({
           await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`);
           router.refresh();
           router.push(`/${params.storeId}/categories`);
-          toast.success('Category deleted.');
+          toast.success('Collection deleted.');
         } catch (error: any) {
-          toast.error('Make sure you removed all products using this category first.');
+          toast.error('Make sure you removed all products using this collection first.');
         } finally {
           setLoading(false);
           setOpen(false);
@@ -103,7 +103,7 @@ export const CategoryForm : React.FC<CategoryFormProps> = ({
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input disabled={loading} placeholder='Category name'{...field}/>
+                                <Input disabled={loading} placeholder='Collection name'{...field}/>
                             </FormControl>
                             <FormMessage/>
                         </FormItem>

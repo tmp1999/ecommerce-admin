@@ -23,18 +23,23 @@ export function MainNav({
         },
         {
             href:`/${params.storeId}/categories`,
-            label: 'Categories',
+            label: 'Collections',
             active: pathname === `/${params.storeId}/categories`
-        },
-        {
-            href:`/${params.storeId}/collections`,
-            label: 'Collection',
-            active: pathname === `/${params.storeId}/collections`
         },
         {
             href:`/${params.storeId}/colors`,
             label: 'Color',
             active: pathname === `/${params.storeId}/colors`
+        },
+        {
+            href:`/${params.storeId}/products`,
+            label: 'Products',
+            active: pathname === `/${params.storeId}/products`
+        },
+        {
+            href:`/${params.storeId}/orders`,
+            label: 'Orders',
+            active: pathname === `/${params.storeId}/orders`
         },
         {
             href:`/${params.storeId}/settings`,

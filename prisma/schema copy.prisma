@@ -12,16 +12,17 @@ datasource db {
 }
 
 model Store {
-  id         String      @id @default(uuid())
-  name       String
-  userId     String
-  billboards Billboard[] @relation("StoreToBillboard")
-  categories Category[]  @relation("StoreToCategory")
-  colors     Color[]     @relation("StoreToColor")
-  products   Product[]   @relation("StoretoProduct")
-  orders     Order[]     @relation("StoreToOrder")
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id          String       @id @default(uuid())
+  name        String
+  userId      String
+  billboards  Billboard[]  @relation("StoreToBillboard")
+  categories  Category[]   @relation("StoreToCategory")
+  collections Collection[] @relation("StoreToCollection")
+  colors      Color[]      @relation("StoreToColor")
+  products    Product[]    @relation("StoretoProduct")
+  orders      Order[]      @relation("StoreToOrder")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Billboard {
@@ -52,6 +53,19 @@ model Category {
   @@index([billboardId])
 }
 
+model Collection {
+  id        String    @id @default(uuid())
+  storeId   String
+  store     Store     @relation("StoreToCollection", fields: [storeId], references: [id])
+  name      String
+  value     String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([storeId])
+}
+
 model Color {
   id        String    @id @default(uuid())
   storeId   String
@@ -66,24 +80,27 @@ model Color {
 }
 
 model Product {
-  id         String      @id @default(uuid())
-  storeId    String
-  store      Store       @relation("StoretoProduct", fields: [storeId], references: [id])
-  categoryId String
-  category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
-  name       String
-  price      Decimal
-  isFeatured Boolean     @default(false)
-  isArchived Boolean     @default(false)
-  colorId    String
-  color      Color       @relation(fields: [colorId], references: [id])
-  images     Image[]
-  orderItems OrderItem[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id           String      @id @default(uuid())
+  storeId      String
+  store        Store       @relation("StoretoProduct", fields: [storeId], references: [id])
+  categoryId   String
+  category     Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  name         String
+  price        Decimal
+  isFeatured   Boolean     @default(false)
+  isArchived   Boolean     @default(false)
+  collectionId String
+  collection   Collection  @relation(fields: [collectionId], references: [id])
+  colorId      String
+  color        Color       @relation(fields: [colorId], references: [id])
+  images       Image[]
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@index([storeId])
   @@index([categoryId])
+  @@index([collectionId])
   @@index([colorId])
 }
 
@@ -104,6 +121,7 @@ model Order {
   store      Store       @relation("StoreToOrder", fields: [storeId], references: [id])
   orderItems OrderItem[]
   isPaid     Boolean     @default(false)
+  name       String
   phone      String      @default("")
   address    String      @default("")
   createdAt  DateTime    @default(now())
